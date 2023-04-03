@@ -8,4 +8,5 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="whitesmoke">#f5f5f5</color>
+    <color name="crimson">#dc143c</color>
 </resources>

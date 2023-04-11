@@ -12,6 +12,7 @@ import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.viewmodel.MutableCreationExtras
 import dev.seabat.android.cheatdemoapp.MainViewModel.Companion.EXTRA_BATTLE
+import dev.seabat.android.cheatdemoapp.MainViewModel.Companion.EXTRA_REPOSITORY
 import dev.seabat.android.cheatdemoapp.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -27,6 +28,7 @@ class MainActivity : AppCompatActivity() {
                     enemyAttack = Constants.SATAN_ATTACK,
                     enemyDefence = Constants.SATAN_DEFENCE,
                 ))
+                set(EXTRA_REPOSITORY, ScoreRepository())
             }
         },
         factoryProducer = { MainViewModel.Factory }
@@ -40,6 +42,29 @@ class MainActivity : AppCompatActivity() {
         binding.buttonTurn.setOnClickListener{
             binding.buttonTurn.isEnabled = false
             viewModel.battle()
+        }
+
+        binding.buttonNext.setOnClickListener{
+            binding.buttonTurn.visibility = View.VISIBLE
+            binding.buttonTurn.isEnabled = true
+            binding.buttonNext.visibility = View.GONE
+            binding.textBrave.setTextColor(getColor(R.color.whitesmoke))
+            binding.textBraveHp.setTextColor(getColor(R.color.whitesmoke))
+            binding.textBraveHpValue.setTextColor(getColor(R.color.whitesmoke))
+            binding.textBraveAttack.setTextColor(getColor(R.color.whitesmoke))
+            binding.textBraveAttackValue.setTextColor(getColor(R.color.whitesmoke))
+            binding.textBraveDefence.setTextColor(getColor(R.color.whitesmoke))
+            binding.textBraveDefenceValue.setTextColor(getColor(R.color.whitesmoke))
+            binding.textCornerman.text = "戦闘ターンボタンを押してください"
+            binding.imageSatan.visibility = View.VISIBLE
+            viewModel.reset(Battle(
+                braveHp = Constants.BRAVE_HP,
+                braveAttack = Constants.BRAVE_ATTACK,
+                braveDefence = Constants.BRAVE_DEFENCE,
+                enemyHp = Constants.SATAN_HP,
+                enemyAttack = Constants.SATAN_ATTACK,
+                enemyDefence = Constants.SATAN_DEFENCE,
+            ))
         }
 
         setupBraveProperty(binding)
@@ -57,7 +82,8 @@ class MainActivity : AppCompatActivity() {
             vibrate(binding.imageSatan)
             if (it <= 0) {
                 binding.textCornerman.text = "魔王を倒した"
-                binding.buttonTurn.isEnabled = false
+                binding.buttonTurn.visibility = View.GONE
+                binding.buttonNext.visibility = View.VISIBLE
                 binding.imageSatan.visibility = View.INVISIBLE
             }
         })
@@ -65,7 +91,8 @@ class MainActivity : AppCompatActivity() {
             binding.textBraveHpValue.text = it.toString()
             if (it <= 0) {
                 binding.textCornerman.text = "勇者は◯んでしまった"
-                binding.buttonTurn.isEnabled = false
+                binding.buttonTurn.visibility = View.GONE
+                binding.buttonNext.visibility = View.VISIBLE
                 binding.textBrave.setTextColor(getColor(R.color.crimson))
                 binding.textBraveHp.setTextColor(getColor(R.color.crimson))
                 binding.textBraveHpValue.setTextColor(getColor(R.color.crimson))
@@ -91,6 +118,9 @@ class MainActivity : AppCompatActivity() {
             if (it > -1) {
                 binding.textCornerman.text ="勇者は${it}のダメージを受けた"
             }
+        })
+        viewModel.scoreText.observe(this@MainActivity, Observer{
+            binding.textScore.text = it
         })
     }
 

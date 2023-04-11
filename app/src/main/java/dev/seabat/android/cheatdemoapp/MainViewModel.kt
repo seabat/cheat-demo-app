@@ -13,9 +13,14 @@ import androidx.lifecycle.viewmodel.CreationExtras
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class MainViewModel(private val battle: Battle, private val savedStateHandle: SavedStateHandle) : ViewModel() {
+class MainViewModel(
+    private val battle: Battle,
+    private val scoreRepository: ScoreRepository,
+    private val savedStateHandle: SavedStateHandle
+    ) : ViewModel() {
     companion object {
         val EXTRA_BATTLE = object : CreationExtras.Key<Battle> {}
+        val EXTRA_REPOSITORY = object : CreationExtras.Key<ScoreRepository> {}
 
         val Factory: ViewModelProvider.Factory = object : ViewModelProvider.Factory {
             @Suppress("UNCHECKED_CAST")
@@ -29,8 +34,9 @@ class MainViewModel(private val battle: Battle, private val savedStateHandle: Sa
                 val savedStateHandle = extras.createSavedStateHandle()
                 // viewModels(extrasProducer,) で受け取った extras からオブジェクトを取り出す
                 val battle = extras[EXTRA_BATTLE]!!
+                val scoreRepository = extras[EXTRA_REPOSITORY]!!
 
-                return MainViewModel(battle, savedStateHandle) as T
+                return MainViewModel(battle, scoreRepository, savedStateHandle) as T
             }
         }
     }
@@ -59,6 +65,12 @@ class MainViewModel(private val battle: Battle, private val savedStateHandle: Sa
     val braveDamage: LiveData<Int>
         get() = _braveDamage
 
+    private val _scoreText : MutableLiveData<String> by lazy {
+        MutableLiveData<String>(createScoreText())
+    }
+    val scoreText: LiveData<String>
+        get() = _scoreText
+
     fun battle() {
         viewModelScope.launch {
             delay(100)
@@ -72,6 +84,7 @@ class MainViewModel(private val battle: Battle, private val savedStateHandle: Sa
                 if (remainedHp > 0) {
                     remainedHp
                 } else {
+                    incrementBraveWin()
                     0
                 }
             }
@@ -89,6 +102,7 @@ class MainViewModel(private val battle: Battle, private val savedStateHandle: Sa
                     if (remainedHp > 0) {
                         remainedHp
                     } else {
+                        incrementSatanWin()
                         0
                     }
                 }
@@ -96,7 +110,7 @@ class MainViewModel(private val battle: Battle, private val savedStateHandle: Sa
 
             // 戦闘ターン終了
             delay(1000)
-            _battleEnable.value = true
+            _battleEnable.value = true // 戦闘ターンボタンを押せるようにする
         }
     }
 
@@ -120,8 +134,29 @@ class MainViewModel(private val battle: Battle, private val savedStateHandle: Sa
         }
     }
 
-    fun rand(start: Int, end: Int): Int {
+    private fun rand(start: Int, end: Int): Int {
         require(start <= end) { "Illegal Argument" }
         return (start..end).random()
+    }
+
+    private fun incrementBraveWin() {
+        val newCount = scoreRepository.loadBraveWinCount() + 1
+        scoreRepository.saveBraveWinCount(newCount)
+        _scoreText.value = createScoreText()
+    }
+
+    private fun incrementSatanWin() {
+        val newCount = scoreRepository.loadSatanWinCount() + 1
+        scoreRepository.saveSatanWinCount(newCount)
+        _scoreText.value = createScoreText()
+    }
+
+    private fun createScoreText(): String {
+        return "勇者${scoreRepository.loadBraveWinCount()}勝 : 魔王${scoreRepository.loadSatanWinCount()}勝"
+    }
+
+    fun reset(battle: Battle) {
+        _braveHp.value = battle.braveHp
+        _enemyHp.value = battle.enemyHp
     }
 }

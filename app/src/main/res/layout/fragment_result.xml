@@ -9,8 +9,9 @@
     tools:context=".MainActivity">
 
     <include
-        android:id="@+id/include_prop_from_battle"
-        layout="@layout/battle_prop"/>
+        android:id="@+id/include_prop_from_result"
+        layout="@layout/battle_prop"
+        />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout_command"
@@ -19,15 +20,15 @@
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/include_prop_from_battle"
+        app:layout_constraintTop_toBottomOf="@id/include_prop_from_result"
         >
         <Button
-            android:id="@+id/button_turn"
+            android:id="@+id/button_next"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
             android:visibility="visible"
-            android:text="戦闘ターン"
+            android:text="もう一度闘う"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -46,4 +47,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/layout_command"
         />
+    <TextView
+        android:id="@+id/text_score"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="勇者3勝 : 魔王2勝"
+        android:textColor="@color/whitesmoke"
+        android:textSize="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/text_cornerman"
+        />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

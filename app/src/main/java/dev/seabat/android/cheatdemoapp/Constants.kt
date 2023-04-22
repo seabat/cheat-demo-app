@@ -8,3 +8,4 @@ object Constants {
     val SATAN_ATTACK = 30
     val SATAN_DEFENCE = 20
 }
+

@@ -6,7 +6,25 @@
     app:startDestination="@id/dest_battle">
     <fragment
         android:id="@+id/dest_battle"
-        android:name="dev.seabat.android.cheatdemoapp.page.BattleFragment"
+        android:name="dev.seabat.android.cheatdemoapp.pages.battle.BattleFragment"
         android:label="@string/title_battle"
-        tools:layout="@layout/fragment_battle" />
+        tools:layout="@layout/fragment_battle" >
+        <action android:id="@+id/action_battle_to_result"
+            app:destination="@id/dest_result">
+            <argument
+                android:name="winner"
+                app:argType="string"
+                android:defaultValue="0" />
+        </action>
+    </fragment>
+    <fragment
+        android:id="@+id/dest_result"
+        android:name="dev.seabat.android.cheatdemoapp.pages.result.ResultFragment"
+        android:label="@string/title_result"
+        tools:layout="@layout/fragment_result" >
+        <argument
+            android:name="winner"
+            app:argType="string"
+            android:defaultValue="0" />
+    </fragment>
 </navigation>

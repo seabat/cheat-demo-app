@@ -1,8 +1,9 @@
-package dev.seabat.android.cheatdemoapp
+package dev.seabat.android.cheatdemoapp.datasources
 
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.core.content.edit
+import dev.seabat.android.cheatdemoapp.sharedApplicationContext
 
 private const val PREF_NAME = "defaultSharedPrefs"
 

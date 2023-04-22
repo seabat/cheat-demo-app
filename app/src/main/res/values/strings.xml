@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Cheat Demo App</string>
+    <string name="title_battle">戦闘</string>
 </resources>

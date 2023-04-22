@@ -1,4 +1,4 @@
-package dev.seabat.android.cheatdemoapp
+package dev.seabat.android.cheatdemoapp.page
 
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -10,10 +10,12 @@ import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.AP
 import androidx.lifecycle.createSavedStateHandle
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.CreationExtras
+import dev.seabat.android.cheatdemoapp.Battle
+import dev.seabat.android.cheatdemoapp.ScoreRepository
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class MainViewModel(
+class BattleViewModel(
     private val battle: Battle,
     private val scoreRepository: ScoreRepository,
     private val savedStateHandle: SavedStateHandle
@@ -36,7 +38,7 @@ class MainViewModel(
                 val battle = extras[EXTRA_BATTLE]!!
                 val scoreRepository = extras[EXTRA_REPOSITORY]!!
 
-                return MainViewModel(battle, scoreRepository, savedStateHandle) as T
+                return BattleViewModel(battle, scoreRepository, savedStateHandle) as T
             }
         }
     }

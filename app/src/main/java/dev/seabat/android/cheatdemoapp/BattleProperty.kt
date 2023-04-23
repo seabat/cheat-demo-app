@@ -1,6 +1,6 @@
 package dev.seabat.android.cheatdemoapp
 
-data class Battle (
+data class BattleProperty (
     val braveHp: Int,
     val braveAttack: Int,
     val braveDefence: Int,

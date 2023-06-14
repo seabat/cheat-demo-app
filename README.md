@@ -27,3 +27,8 @@
 ## 画面のスクリーンショット
 
 <img src="image/top_screenshot.png" width="200">
+
+## デモ
+
+https://github.com/seabat/cheat-demo-app/assets/4818667/7fe417bb-2464-4114-a350-10eb636ea836
+
